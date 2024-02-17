@@ -1,16 +1,17 @@
-import Axios from 'axios'
+import { BASE_URL_API } from "@/config";
+import Axios from "axios";
 
 const axios = Axios.create({
-    baseURL: 'http://localhost:8000/',
-    headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-    },
-    withCredentials: true,
-    withXSRFToken: true
-})
+  baseURL: BASE_URL_API,
+  headers: {
+    "X-Requested-With": "XMLHttpRequest",
+  },
+  withCredentials: true,
+  withXSRFToken: true,
+});
 
 /* axios.interceptors.request.use((config)=>{
     
 }) */
 
-export default axios
+export default axios;

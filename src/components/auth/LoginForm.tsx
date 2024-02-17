@@ -67,16 +67,10 @@ const LoginForm: React.FC = () => {
         password: "",
       });
     } catch (error) {
-      if (error instanceof AxiosError) {
-        alert(
-          error.response?.data.message ||
-            "Ha ocurrido un error al registrar al usuario"
-        );
-      }
-      if (error instanceof ZodError) {
-        const msg = error.issues[0].message;
-        return alert(msg);
-      }
+      toast.error(
+        getMsgErrorResponse(error) ||
+          "Ocurrió un problema, por favor verifique los datos"
+      );
     }
   };
 

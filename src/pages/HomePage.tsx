@@ -1,3 +1,4 @@
+
 import GridAllProperties from "@/components/home/GridAllProperties";
 import Hero from "@/components/home/Hero";
 import { HowItWorks } from "@/components/home/HowItWorks";
@@ -10,6 +11,7 @@ function HomePage() {
       <HowItWorks />
       {/* All properties */}
       <GridAllProperties />
+     
     </PrincipalLayout>
   );
 }

@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 import axios from "@/lib/axiosConfig";
 import { AxiosError } from "axios";
+import { getMsgErrorResponse } from "@/helpers/getMsgErrorResponse";
 
 const ChangePasswordForm = () => {
   const user = useAuthenticate((state) => state.user);
@@ -41,13 +42,10 @@ const ChangePasswordForm = () => {
         toast.success("No puede elegir la misma contraseña");
       }
     } catch (error) {
-      toast.error("Ocurrió un problema, por favor verifique los datos");
-      if (error instanceof AxiosError) {
-        alert(
-          error.response?.data.message ||
-            "Ha ocurrido un error al editar la información"
-        );
-      }
+      toast.error(
+        getMsgErrorResponse(error) ||
+          "Ocurrió un problema, por favor verifique los datos"
+      );
     }
   };
 
@@ -70,7 +68,6 @@ const ChangePasswordForm = () => {
           onChange={handleChange}
         />
       </Label>
-
 
       <Label>
         Nueva Contraseña:

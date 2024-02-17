@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import axios from "@/lib/axiosConfig";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { getMsgErrorResponse } from "@/helpers/getMsgErrorResponse";
 
 const ProfileForm = () => {
   interface User {
@@ -38,12 +39,11 @@ const ProfileForm = () => {
         toast.success("No se realizó ningún cambio");
       }
     } catch (error) {
-      if (error instanceof AxiosError) {
-        alert(
-          error.response?.data.message ||
-            "Ha ocurrido un error al editar la información"
-        );
-      }
+      console.log(error)
+      toast.error(
+        getMsgErrorResponse(error) ||
+          "Ha ocurrido un error al editar la información"
+      );
     }
   };
 
