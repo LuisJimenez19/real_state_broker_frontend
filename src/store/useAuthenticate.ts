@@ -33,7 +33,7 @@ export const useAuthenticate = create<State>((set) => {
             isAuthenticated: true,
           }));
         }
-      } catch (e) {
+      } catch (e: any) {
         if (e.response === 401) {
           set(() => ({
             user: null,

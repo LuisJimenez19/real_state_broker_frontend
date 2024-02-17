@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import axios from "../../lib/axiosConfig";
 import { createUserSchema } from "@/validations/user";
-import { ZodError } from "zod";
+
 import { Button } from "../ui/button";
 import {
   Card,
@@ -12,7 +12,7 @@ import {
 } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { AxiosError } from "axios";
+
 import { Link, useNavigate } from "react-router-dom";
 import PrincipalLayout from "@/layouts/PrincipalLayout";
 import { useAuthenticate } from "@/store/useAuthenticate";
@@ -73,13 +73,11 @@ const RegisterUser: React.FC = () => {
         password: "",
         password_confirmation: "",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast.error(
         getMsgErrorResponse(error) ||
           "Ocurrió un problema, por favor verifique los datos"
       );
-
-      
     }
   };
 

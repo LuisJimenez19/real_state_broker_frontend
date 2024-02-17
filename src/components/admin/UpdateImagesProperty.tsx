@@ -8,17 +8,8 @@ import {
 import { ImgPreview, Property } from "@/types";
 import { Button, buttonVariants } from "../ui/button";
 
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-
 import { useState } from "react";
-import { ImagePlusIcon, Trash } from "lucide-react";
+import { ImagePlusIcon } from "lucide-react";
 import { toast } from "sonner";
 import axios from "@/lib/axiosConfig";
 import { getProperty } from "@/services/properties";
@@ -68,7 +59,7 @@ function UpdateImagesProperty({ property }: { property: Property }) {
         setImagePreview(INTIAL_VALUE_CREATE_IMAGE);
         setOpenCreate(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       toast.error(getMsgErrorResponse(error));
     }
@@ -82,7 +73,7 @@ function UpdateImagesProperty({ property }: { property: Property }) {
         const currentProperty = await getProperty(property.id);
         setImages(currentProperty.data.property.images);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       toast.error(getMsgErrorResponse(error));
     }

@@ -25,10 +25,9 @@ import AuthLayout from "@/layouts/AuthLayout";
 import axios from "@/lib/axiosConfig";
 import { useAuthenticate } from "@/store/useAuthenticate";
 import { createPropertySchema } from "@/validations/properties";
-import { AxiosError } from "axios";
+
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { ZodError } from "zod";
 
 const INITIAL_VALUE = {
   name: "",
@@ -59,10 +58,11 @@ function Create() {
       if (res.status === 200) {
         toast.success("Inmueble añadido correctamente");
         setData(INITIAL_VALUE);
-
-        formRef.current.reset();
+        if (formRef.current) {
+          (formRef.current as HTMLFormElement).reset();
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       toast.error(
         getMsgErrorResponse(error) || "Ha ocurrido un error inesperado"

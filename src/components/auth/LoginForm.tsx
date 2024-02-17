@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import axios from "../../lib/axiosConfig";
 import { loginUserSchema } from "@/validations/user";
-import { ZodError } from "zod";
+
 import { Button } from "../ui/button";
 import {
   Card,
@@ -12,11 +12,12 @@ import {
 } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { AxiosError } from "axios";
+
 import { useAuthenticate } from "@/store/useAuthenticate";
 import { Link, useNavigate } from "react-router-dom";
 import PrincipalLayout from "@/layouts/PrincipalLayout";
 import { toast } from "sonner";
+import { getMsgErrorResponse } from "@/helpers/getMsgErrorResponse";
 
 interface User {
   email: string;
@@ -66,7 +67,7 @@ const LoginForm: React.FC = () => {
         email: "",
         password: "",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast.error(
         getMsgErrorResponse(error) ||
           "Ocurrió un problema, por favor verifique los datos"

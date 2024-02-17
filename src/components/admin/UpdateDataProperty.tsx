@@ -45,10 +45,8 @@ function UpdateDataProperty({ property }: { property: Property }) {
         refresh();
         toast.success(`${formData.name} Actualizado correctamente`);
       }
-    } catch (error) {
-      getMsgErrorResponse(error);
-      console.log(error);
-      console.log(error.response.data.message);
+    } catch (error: any) {
+      toast.error(getMsgErrorResponse(error));
     }
   }
 

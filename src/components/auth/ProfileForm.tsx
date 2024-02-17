@@ -5,20 +5,20 @@ import { Label } from "../ui/label";
 import { ChangeEvent, FormEvent, useState } from "react";
 import axios from "@/lib/axiosConfig";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
+
 import { getMsgErrorResponse } from "@/helpers/getMsgErrorResponse";
 
 const ProfileForm = () => {
   interface User {
-    name: string;
-    email: string;
+    name: string | undefined;
+    email: string | undefined;
   }
 
   const user = useAuthenticate((state) => state.user);
   const setAuthenticate = useAuthenticate((state) => state.setAuthenticate);
   const [userForm, setUserForm] = useState<User>({
-    name: user.name,
-    email: user.email,
+    name: user?.name,
+    email: user?.email,
   });
 
   const handleSubmit = async (e: FormEvent) => {
@@ -27,7 +27,7 @@ const ProfileForm = () => {
       const csrf = () => axios.get("/sanctum/csrf-cookie");
       await csrf();
 
-      const response = await axios.put("/user/update/" + user.id, userForm);
+      const response = await axios.put("/user/update/" + user?.id, userForm);
 
       if (response.status === 200) {
         toast.success("La información se actualizó correctamente");
@@ -38,8 +38,8 @@ const ProfileForm = () => {
       if (response.status === 204) {
         toast.success("No se realizó ningún cambio");
       }
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      console.log(error);
       toast.error(
         getMsgErrorResponse(error) ||
           "Ha ocurrido un error al editar la información"

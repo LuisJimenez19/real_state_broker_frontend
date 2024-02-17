@@ -27,6 +27,7 @@ export const useProperties = create<State>((set) => {
     responseData: null,
     allProperties: null,
     counterRefreshProperties: 0,
+    currentPage: 0,
 
     refreshProperties: () => {
       set((state) => ({

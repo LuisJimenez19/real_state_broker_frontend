@@ -12,7 +12,6 @@ import {
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
-  ArrowUpRightFromSquare,
   ChevronDown,
   EditIcon,
   EyeIcon,
@@ -68,7 +67,8 @@ export const columns: ColumnDef<Property>[] = [
     header: "Estado",
     cell: ({ row }) => (
       <div className="capitalize">
-        {statusPropertiesToShow[row.getValue("status")] ||
+        
+        {statusPropertiesToShow[row.getValue("status") as string] ||
           row.getValue("status")}
       </div>
     ),
@@ -121,7 +121,7 @@ export const columns: ColumnDef<Property>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const property = row.original;
-      const showDeletesState = row.original
+      // const showDeletesState = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -130,7 +130,9 @@ export const columns: ColumnDef<Property>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="flex flex-col">
-            <DropdownMenuLabel className="text-start">Acciones</DropdownMenuLabel>{" "}
+            <DropdownMenuLabel className="text-start">
+              Acciones
+            </DropdownMenuLabel>{" "}
             {/* actualizar información */}
             <Link
               className={`${buttonVariants({
@@ -138,8 +140,7 @@ export const columns: ColumnDef<Property>[] = [
               })} w-full`}
               to={`/property/${property.id}`}
             >
-              Visitar <EyeIcon className="text-sm p-1"/>
-
+              Visitar <EyeIcon className="text-sm p-1" />
             </Link>
             <Sheet>
               <SheetTrigger
@@ -147,7 +148,7 @@ export const columns: ColumnDef<Property>[] = [
                   variant: "ghost",
                 })} w-full`}
               >
-                Información <EditIcon className="text-sm p-1"/>
+                Información <EditIcon className="text-sm p-1" />
               </SheetTrigger>
               <UpdateDataProperty property={property} />
             </Sheet>
@@ -158,7 +159,7 @@ export const columns: ColumnDef<Property>[] = [
                   variant: "ghost",
                 })} w-full`}
               >
-                Precios <EditIcon className="text-sm p-1"/>
+                Precios <EditIcon className="text-sm p-1" />
               </SheetTrigger>
               <UpdatePriceProperty property={property} />
             </Sheet>
@@ -169,13 +170,11 @@ export const columns: ColumnDef<Property>[] = [
                   variant: "ghost",
                 })} w-full`}
               >
-                Imágenes  <EditIcon className="text-sm p-1"/>
+                Imágenes <EditIcon className="text-sm p-1" />
               </SheetTrigger>
               <UpdateImagesProperty property={property} />
             </Sheet>
-            {
-              property.deleted_at && <ButtonRestore property={property} />  
-            }
+            {property.deleted_at && <ButtonRestore property={property} />}
             {/*  <DropdownMenuItem>Añadir imagenes</DropdownMenuItem>
             <DropdownMenuItem>Añadir precios</DropdownMenuItem> */}
             <ButtonDeleteProperty className="mt-1" property={property} />
@@ -190,10 +189,10 @@ export default function DataTableProperties() {
   const refresh = useProperties((state) => state.counterRefreshProperties);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   const [links, setLinks] = useState<ResponseDataLink[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [filters, setFilters] = useState({
     bedrooms: "",
     bathrooms: "",
@@ -204,10 +203,12 @@ export default function DataTableProperties() {
     garage: "",
     paginate: "",
   });
-  const [showDeletesState, setShowDeletesState ] = useState<boolean>(false)
- 
+  const [showDeletesState, setShowDeletesState] = useState<boolean>(false);
+
   const getProperties = async () => {
-    const res = await axios.get("/properties?page=" + page, {params : filters});
+    const res = await axios.get("/properties?page=" + page, {
+      params: filters,
+    });
     setLoading(false);
     setLinks(res.data.properties.links);
     setProperties(res.data.properties.data);
@@ -264,9 +265,16 @@ export default function DataTableProperties() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <FiltersProperties filters={filters} setFilters={(e : any) => setFilters(e)} showDeletes={true} setShowDeletesState={(e : boolean) => setShowDeletesState(e)} />
+      <FiltersProperties
+        filters={filters}
+        setFilters={(e: any) => setFilters(e)}
+        showDeletes={true}
+        setShowDeletesState={(e: boolean) => setShowDeletesState(e)}
+      />
 
-      { showDeletesState && <p className="text-xl text-center my-5 "> Mostrando Eliminados </p> }
+      {showDeletesState && (
+        <p className="text-xl text-center my-5 "> Mostrando Eliminados </p>
+      )}
       {!loading ? (
         <div className="rounded-md border animate-fade-in">
           <Table>
@@ -326,7 +334,7 @@ export default function DataTableProperties() {
         </div>
       )}
       <div className="flex items-center justify-end space-x-2 py-4">
-        <Pagination setPage={(e) => setPage(e)} links={links} />
+        <Pagination setPage={(e: number) => setPage(e)} links={links} />
       </div>
     </div>
   );

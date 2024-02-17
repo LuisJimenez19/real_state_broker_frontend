@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { ZodError } from "zod";
 
-const statusCode = {
+const statusCode: Record<number, string> = {
   404: "No encontrado",
   401: "No autorizado",
 };
@@ -12,10 +12,13 @@ export function getMsgErrorResponse(error: ZodError | AxiosError) {
     return error.issues[0].message;
   }
   if (error instanceof AxiosError) {
-    if (error.response !== undefined && error.response.data.errores) {
-      return Object.values(error.response?.data.errores)[0][0];
+    if (error.response !== undefined) {
+      //TODO: Tipar bien 
+      return Object.values<any>((error.response as any).data.errores)[0][0];
     }
-    return statusCode[error.response?.status] || "Ha ocurrido un error";
+    const errorStatus = (error.response as any).status;
+
+    return statusCode[errorStatus] || "Ha ocurrido un error";
   }
   return false;
 }

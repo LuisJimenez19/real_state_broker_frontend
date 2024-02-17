@@ -39,7 +39,7 @@ export function TablePricesProperty({
         setPrices(currentProperty.data.property.prices);
         return toast.success("Eliminado correctamente");
       }
-    } catch (error) {
+    } catch (error: any) {
       getMsgErrorResponse(error);
     }
   }

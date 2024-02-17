@@ -11,14 +11,12 @@ import SectionPrices from "./SectionPrices";
 import { Link } from "react-router-dom";
 import { buttonVariants } from "../ui/button";
 import { useAuthenticate } from "@/store/useAuthenticate";
-import PropertyCalification from "../home/PropertyCalification";
 
 function SectionInfoProperty({
   currentProperty,
-  setCalification
 }: {
-  currentProperty: Property,
-  setCalification : any
+  currentProperty: Property;
+  setCalification?: any;
 }) {
   const isAuthenticated = useAuthenticate((state) => state.isAuthenticated);
   const userAuthenticated = useAuthenticate((state) => state.user);
@@ -91,11 +89,11 @@ function SectionInfoProperty({
       <SectionPrices prices={currentProperty.prices} />
 
       {/* CALIFICACIÖN */}
-      <PropertyCalification
+      {/*  <PropertyCalification
         propertyId={currentProperty.id}
         califications={currentProperty.califications}
         setCalification={(e: boolean) => setCalification(e)}
-      />
+      /> */}
 
       {/* SI ES EL PROPIETARIO */}
       {loadingAuth ? (
@@ -104,7 +102,7 @@ function SectionInfoProperty({
         </p>
       ) : (
         isAuthenticated &&
-        currentProperty.user_id === userAuthenticated.id && (
+        currentProperty.user_id === userAuthenticated?.id && (
           <Link
             to="/dashboard"
             className={buttonVariants({

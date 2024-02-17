@@ -5,6 +5,7 @@ export interface Property {
   location: string;
   created_at: string;
   updated_at: string;
+  deleted_at?: string;
   size: number;
   floors: number;
   user_id: number;
